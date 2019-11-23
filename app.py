@@ -1,11 +1,79 @@
-from flask import Flask, render_template
+import os
+from flask import Flask, request, jsonify, render_template
+from flask_sqlalchemy import SQLAlchemy
+
 app = Flask(__name__)
 
+app.config.from_object("config.DevelopmentConfig")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+from models import Product, Category
+
+@app.route("/")
+def hello():
+    return render_template('home.html')
+
+# @app.route("/add")
+# def add_book():
+#     name=request.args.get('name')
+#     author=request.args.get('author')
+#     published=request.args.get('published')
+#     try:
+#         book=Book(
+#             name=name,
+#             author=author,
+#             published=published
+#         )
+#         db.session.add(book)
+#         db.session.commit()
+#         return "Book added. book id={}".format(book.id)
+#     except Exception as e:
+# 	    return(str(e))
+
+@app.route("/product/getall")
+def get_all():
+    try:
+        product=Product.query.all()
+        products = list(dict(jsonify([e.serialize() for e in product])))
+        return  render_template('home.html',products = products)
+    except Exception as e:
+	    return(str(e))
+
+@app.route("/product/getid/<id_>")
+def get_prod_by_id(id_):
+    try:
+        product=Product.query.filter_by(id=id_).first()
+        products = [dict(product.serialize())]
+        return render_template('home.html',products=products)
+        
+    except Exception as e:
+	    return(str(e))
+
+@app.route("/product/getseller/<seller_>")
+def get_prod_by_seller(seller_):
+    try:
+        product=Product.query.filter_by(seller=seller_)
+        products = [dict(e.serialize()) for e in product]
+        return render_template('home.html',products=products)
+        # return [dict(e.serialize()) for e in product]
+
+    except Exception as e:
+	    return(str(e))
+
+@app.route("/category/getid/<id_>")
+def get_cat_by_id(id_):
+    try:
+        cat=Category.query.get(id_)
+        cats = [dict(cat.serialize())]
+        return render_template('category.html',products=cats)
+        
+    except Exception as e:
+	    return(str(e))
+
+@app.route("/presentation")
+def present():
+    return render_template('presentation.html')
 
 if __name__ == '__main__':
-  app.run(host='127.0.0.1', port=8000, debug=True)
- 
+    app.run()

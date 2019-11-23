@@ -132,7 +132,7 @@ def get_all_categories(main_categories):
                 print(f'{count} number of deepest nodes')
 
 main_categories = get_main_categories(save_db=True)
-queue = deque(main_categories[:4])
+queue = deque(main_categories)
 
 def thread_get_sub_from_queue():
     global queue
