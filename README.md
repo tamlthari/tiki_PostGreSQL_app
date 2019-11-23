@@ -36,6 +36,7 @@ Heroku app and database is deployed at [https://tiki-postgresql-app.herokuapp.co
     - Install heroku and login
     - Create environment `.env` and install required python modules. (Flask, flask_script, flask_migrate, psycopg2-binary, gunicorn)
     - Create `requirements.txt` by `pip freeze > requirements.txt`
+    - Create `runtime.txt` containing `python-3.6.5`
     - Create app `heroku create [app-name]`
     - Create remote and ready to push `git remote add prod https://git.heroku.com/tiki-postgresql-app.git`
     - Config heroku `heroku config:set APP_SETTINGS=config.ProductionConfig --remote prod`
