@@ -1,6 +1,6 @@
 # tiki PostGreSQL
 Crawl categories and products from tiki.vn, store in PostGres database and use Flask to query the data. Plus an analysis presentation embed in the Flask website.
-Heroku app and database is deployed at tiki-postgresql-app.herokuapp.com
+Heroku app and database is deployed at [tiki-postgresql-app.herokuapp.com](tiki-postgresql-app.herokuapp.com)
 
 ## Crawling data
 1. Prepare the database
