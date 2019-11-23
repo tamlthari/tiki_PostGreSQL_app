@@ -27,6 +27,7 @@ Heroku app and database is deployed at [https://tiki-postgresql-app.herokuapp.co
     - The URL path is used to input query to the app
     - /product/getid/[id] will query and return the product by id
     - /product/getseller/[seller] will query by seller and return all products from the seller ([seller] input is case sensitive), for example, /product/getseller/FORD will return all products by FORD
+    - /product/getcategory/[categoryid] will query the products by the category id
     - /category/getid/[id] will return the category by id
 2. View Tiki analysis presentation
     - Tiki Analysis is embed at /presentation and can be viewed by going to /presentation or clicking on 'Go to Tiki analysis Slides' button
@@ -37,12 +38,13 @@ Heroku app and database is deployed at [https://tiki-postgresql-app.herokuapp.co
     - Create environment `.env` and install required python modules. (Flask, flask_script, flask_migrate, psycopg2-binary, gunicorn)
     - Create `requirements.txt` by `pip freeze > requirements.txt`
     - Create `runtime.txt` containing `python-3.6.5`
+    - Create `Procfile` containg `web: gunicorn app:app`
     - Create app `heroku create [app-name]`
     - Create remote and ready to push `git remote add prod https://git.heroku.com/tiki-postgresql-app.git`
     - Config heroku `heroku config:set APP_SETTINGS=config.ProductionConfig --remote prod`
     - Create database remotely `heroku addons:create heroku-postgresql:hobby-dev --app [app-name]`
     - View configurations by `heroku config --app [app-name]`
-    - push postgres db to remote `PGUSER=postgres PGPASSWORD=password heroku pg:push postgresql://postgres:password@localhost:5432/thuctamdb DATABASE_URL --app [app-name]` . The `DATABASE_URL` is the in heroku configurations in the previous remote db creation step
+    - push postgres db to remote `PGUSER=postgres PGPASSWORD=password heroku pg:push postgresql://postgres:password@localhost:5432/[localdbname] DATABASE_URL --app [app-name]` . The `DATABASE_URL` is the in heroku configurations in the previous remote db creation step
     - If `pg_dump` version mismatch upgrade postgres by `brew upgrade postgresql`
     - run `git init` on the root folder that has not been git initialized
     - `git commit -m "message here"` then `git push prod master`

@@ -19,7 +19,7 @@ def create_product_table():
     query = f'''
     CREATE TABLE IF NOT EXISTS products (
        id SERIAL PRIMARY KEY,
-       wproductid INT,
+       wproductid VARCHAR(255),
        image TEXT,
        fprice INT,
        category VARCHAR(255),
@@ -82,7 +82,7 @@ class Product:
                 return ''
                 
         except Exception as err:
-            print(f'ERROR SELECT url FROM products {val}: {err}')
+            print(f'SELECT wproductid FROM products WHERE wproductid LIKE {val}: {err}')
             
         query = f"""
             INSERT INTO products (wproductid, image, fprice, category, subcategory, title, seller, rprice, discount, rating, numreviews, tikinow, productlink, cat_id) 
@@ -95,11 +95,10 @@ class Product:
             self.prod_id = cur.fetchone()[0]
             conn.close()
         except Exception as err:
-            print(f'ERROR INSERT INTO categories..{val}: {err}')
+            print(f'ERROR INSERT INTO products..{val}: {err}')
         
     def __repr__(self):
         return f'ID: webProductID: {self.wproductid}, ImageURL: {self.image}, FinalPrice: {self.fprice}, MainCategory: {self.category}, SubCategory: {self.subcategory}, Title: {self.title}, Seller: {self.seller}, RegularPrice: {self.rprice}, Discount: {self.discount}, Rating: {self.rating}, NoOfReviews: {self.numreviews}, TikiNOW: {self.tikinow}, ProductLink: {self.productlink}, SubCatID: {self.cat_id}'
-
 
 def parse(url):
     try:
@@ -128,21 +127,23 @@ def get_littlest_cats():
     
     return result
 
+
 littlest_cats = get_littlest_cats()
 df = pd.DataFrame(littlest_cats)
 
 df['merge'] = df[1] +' '+ df[2].map(str)
 global queue
 queue = deque(df['merge'])
+# queue[0].split()[1]
+# len(queue)
 
 
-
-def scrap_products(littlest_cat, articles, k, save_db=False):
-
-    try:
+def scrap_product(littlest_cat, articles, k, save_db=False):
     
+    try:
+        
         #scrape and assign to variables
-        wproductid = int(articles[k]['data-id'])
+        wproductid = articles[k]['data-id']
         image = articles[k].img['src']
         fprice = int(articles[k].find_all("span",{"class":"final-price"})[0].text.strip().split()[0].strip('đ').replace('.',''))
         rprice = [0 if articles[k].find_all("span",{"class":"price-regular"})[0].text == '' else int(articles[k].find_all("span",{"class":"price-regular"})[0].text.strip('đ').replace('.',''))][0]
@@ -174,6 +175,7 @@ def scrap_products(littlest_cat, articles, k, save_db=False):
             
     except Exception as err:
         print(err, k)
+        
 
 def traverse_and_scrap(littlest_cat):   
     url = littlest_cat.split()[0]
@@ -184,7 +186,7 @@ def traverse_and_scrap(littlest_cat):
         articles = soup.find_all('div', {"class":'product-item'})
         
         for k in range(len(articles)):
-            scrap_products(littlest_cat, articles, k, save_db=True)
+            scrap_product(littlest_cat, articles, k, save_db=True)
         
         while links[0].find_all('a', {"class": "next"}) != []:
             try:
@@ -192,22 +194,25 @@ def traverse_and_scrap(littlest_cat):
                 articles = soup.find_all('div', {"class":"product-item"})
                 links = soup.find_all('div',{"class":'list-pager'})
                 for i in range(len(articles)):
-                    scrap_products(littlest_cat, articles, i, save_db=True)
+                    scrap_product(littlest_cat, articles, i, save_db=True)
                 
-            except:
+            except Exception as e:
+                print(f'ERROR traverse and scrap smaller loop: {e}')
                 continue
     
     except Exception as err:
-        print(f'ERROR: {err}')
+        print(f'ERROR traverse and scrap bigger loop: {err}')
+
 
 def thread_get_sub_from_queue():
-    
+    global queue
     if not queue:
         return 'Thread done'
     littlest_cat = queue.popleft()
     traverse_and_scrap(littlest_cat)
+    
+    thread_get_sub_from_queue()
 
-    thread_get_sub_from_queue()                
 
 start = datetime.now()
 if __name__ == '__main__':
@@ -218,4 +223,7 @@ if __name__ == '__main__':
         executor.submit(thread_get_sub_from_queue)
 
 end = datetime.now()
-print(f'Duration: {end - start}')    
+print(f'Duration: {end - start}')
+
+# uncomment and run to not threading
+# thread_get_sub_from_queue()

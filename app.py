@@ -35,8 +35,8 @@ def hello():
 def get_all():
     try:
         product=Product.query.all()
-        products = list(dict(jsonify([e.serialize() for e in product])))
-        return  render_template('home.html',products = products)
+        products = [dict(e.serialize()) for e in product]
+        return render_template('home.html',products = products)
     except Exception as e:
 	    return(str(e))
 
@@ -60,6 +60,18 @@ def get_prod_by_seller(seller_):
 
     except Exception as e:
 	    return(str(e))
+
+
+@app.route("/product/getcategory/<catid_>")
+def get_prod_by_category(catid_):
+    try:
+        product=Product.query.filter_by(cat_id=catid_)
+        products = [dict(e.serialize()) for e in product]
+        return render_template('home.html',products=products)
+        
+    except Exception as e:
+	    return(str(e))
+
 
 @app.route("/category/getid/<id_>")
 def get_cat_by_id(id_):
