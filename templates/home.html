@@ -136,7 +136,7 @@
 
                                 </ul>
                                 <ul class="product__discount">
-                                    Discount: {{product['discount']}}
+                                    Discount: {{product['discount']}} %
                                 </ul>
                                 <ul class="product__seller">
                                     Seller: {{product['seller']}}
@@ -148,10 +148,10 @@
                                     Category: {{product['subcategory']}}
                                 </ul>
                                 <ul class="product__stars">
-                                    Stars: {{product['rating']}}
+                                    Stars: {{product['rating']}} %
                                 </ul>
                                 <ul class="product__comment">
-                                    Comments: {{ '{:0,.0f}'.format(product['numreviews']) }}
+                                    Reviews: {{ '{:0,.0f}'.format(product['numreviews']) }}
                                 </ul>
                                 <ul class="product__tikinow">
                                     TIKINOW: {{ 'Yes' if product['tikinow'] else 'No' }}

@@ -14,22 +14,6 @@ from models import Product, Category
 def hello():
     return render_template('home.html')
 
-# @app.route("/add")
-# def add_book():
-#     name=request.args.get('name')
-#     author=request.args.get('author')
-#     published=request.args.get('published')
-#     try:
-#         book=Book(
-#             name=name,
-#             author=author,
-#             published=published
-#         )
-#         db.session.add(book)
-#         db.session.commit()
-#         return "Book added. book id={}".format(book.id)
-#     except Exception as e:
-# 	    return(str(e))
 
 @app.route("/product/getall")
 def get_all():
@@ -56,8 +40,7 @@ def get_prod_by_seller(seller_):
         product=Product.query.filter_by(seller=seller_)
         products = [dict(e.serialize()) for e in product]
         return render_template('home.html',products=products)
-        # return [dict(e.serialize()) for e in product]
-
+        
     except Exception as e:
 	    return(str(e))
 
