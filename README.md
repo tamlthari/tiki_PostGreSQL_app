@@ -18,6 +18,7 @@ Heroku app and database is deployed at [https://tiki-postgresql-app.herokuapp.co
 ## Build Flask app
 1. Database connection
     - We use `flask_sqlalchemy SQLAlchemy` to create data class models and query 
+    - `models.py` creates the class data models and `config.py` contains configuration for our app
     - Database can be query in realtime by input URL path
 2. Start Flask app
     - On terminal run  `python app.py` to start the Flask app
@@ -35,7 +36,7 @@ Heroku app and database is deployed at [https://tiki-postgresql-app.herokuapp.co
 ## Push and deploy to Heroku
 1. Create app and push database to Heroku
     - Install heroku and login
-    - Create environment `.env` and install required python modules. (Flask, flask_script, flask_migrate, psycopg2-binary, gunicorn)
+    - Create environment `virtualenv env` then `source env/bin/activate` and install required python modules. (Flask, flask_script, flask_migrate, psycopg2-binary, gunicorn)
     - Create `requirements.txt` by `pip freeze > requirements.txt`
     - Create `runtime.txt` containing `python-3.6.5`
     - Create `Procfile` containg `web: gunicorn app:app`
@@ -46,6 +47,12 @@ Heroku app and database is deployed at [https://tiki-postgresql-app.herokuapp.co
     - View configurations by `heroku config --app [app-name]`
     - push postgres db to remote `PGUSER=postgres PGPASSWORD=password heroku pg:push postgresql://postgres:password@localhost:5432/[localdbname] DATABASE_URL --app [app-name]` . The `DATABASE_URL` is the in heroku configurations in the previous remote db creation step
     - If `pg_dump` version mismatch upgrade postgres by `brew upgrade postgresql`
+    - create file `.env` containing
+    ```gherkin=
+    export APP_SETTINGS="config.DevelopmentConfig"
+    export DATABASE_URL="[remoteDatabaseURL]"
+    ```
+    (also edit `config.py` DATABASE_URL to be remoteDatabaseURL)
     - run `git init` on the root folder that has not been git initialized
     - `git commit -m "message here"` then `git push prod master`
     - All done and go to heroku url to use app

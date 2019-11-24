@@ -12,8 +12,7 @@ from models import Product, Category
 
 @app.route("/")
 def hello():
-    return render_template('home.html')
-
+    return render_template('start.html')
 
 @app.route("/product/getall")
 def get_all():

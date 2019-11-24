@@ -44,7 +44,7 @@
           <div class="row">
             <div class="col-sm-8 col-md-7 py-4">
               <h4 class="text-white">About</h4>
-              <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+              <p class="text-muted">Analysis about categories, products, sellers on Tiki</p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
               <h4 class="text-white">Contact</h4>
@@ -88,81 +88,10 @@
        <!-- Start Slider Area -->
     <!-- Start Our Product Area -->
     <section class="htc__product__area ptb--130 bg__white">
-        <div class="container">
-            <div class="htc__product__container">
-                <!-- Start Product MEnu -->
-                <!-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="product__menu">
-                                <button data-filter="*" class="is-checked">All</button>
-                                <button data-filter=".cat--1">Mobile phones</button>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- End Product MEnu -->
-                <div class="row product__list">
-                    <!-- Start Single Product -->
-                    {% for product in products %}
-                    <div class="col-md-3 single__pro col-lg-3 col-md-4 cat--1 col-sm-12">
-                        <div class="product foo">
-                            <div class="product__inner">
-                                <div class="pro__thumb">
-                                    <a href="#">
-                                        <img src={{product['image']}} alt="product">
-                                    </a>
-                                </div>
-                                <div class="product__hover__info">
-                                    <ul class="product__action">
-                                        <li><a data-toggle="modal" data-target="#productModal" title="Quick View"
-                                               class="quick-view modal-view detail-link" href="#"><span
-                                            class="ti-plus"></span></a></li>
-                                        <li><a title="Add TO Cart" href="cart.html"><span
-                                            class="ti-shopping-cart"></span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="add__to__wishlist">
-                                    <a data-toggle="tooltip" title="Add To Wishlist" class="add-to-cart"
-                                       href="wishlist.html"><span class="ti-heart"></span></a>
-                                </div>
-                            </div>
-                            <div class="product__details">
-
-                                <h2><a href={{product['productlink']}}>{{product['title']}}</a></h2>
-
-                                <ul class="product__price">
-                                    <li class="old__price">&#8363; {{'{:0,.0f}'.format(product['rprice']) }}</li>
-                                    <li class="new__price">&#8363; {{'{:0,.0f}'.format(product['fprice']) }}</li>
-
-
-                                </ul>
-                                <ul class="product__discount">
-                                    Discount: {{product['discount']}} %
-                                </ul>
-                                <ul class="product__seller">
-                                    Seller: {{product['seller']}}
-                                </ul>
-                                <ul class="product__cat">
-                                    Main Category: {{product['category']}}
-                                </ul>
-                                <ul class="product__subcat">
-                                    Category: {{product['subcategory']}}
-                                </ul>
-                                <ul class="product__stars">
-                                    Stars: {{product['rating']}} %
-                                </ul>
-                                <ul class="product__comment">
-                                    Reviews: {{ '{:0,.0f}'.format(product['numreviews']) }}
-                                </ul>
-                                <ul class="product__tikinow">
-                                    TIKINOW: {{ 'Yes' if product['tikinow'] else 'No' }}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+            <div class="container">
+                <img src="https://media.discordapp.net/attachments/646547608537530369/647906377653682196/unknown.png?width=1572&height=885" class="img-fluid max-width: 100% height: auto" alt="Responsive image">
+                <img src="https://cdn.discordapp.com/attachments/646547608537530369/648016755175981079/image0.png" class="img-fluid max-width: 100% height: auto" alt="Responsive image">
             </div>
-        </div>
     </section>
 
     </main>
@@ -187,3 +116,4 @@
     <script src="../../assets/js/vendor/holder.min.js"></script>
   </body>
 </html>
+
