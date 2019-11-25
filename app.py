@@ -57,8 +57,11 @@ def get_prod_by_category(catid_):
 @app.route("/product/<sql_>")
 def get_prod_by_sql(sql_):
     try:
-        result = db.engine.execute(sql_)
-        return render_template('home.html',products=result)
+        if 'drop' not in sql_.lower() and 'insert' not in sql_.lower() and 'delete' not in sql_.lower() and 'create' not in sql_.lower():
+            result = db.engine.execute(sql_)
+            return render_template('home.html',products=result)
+        else:
+            return render_template('error.html')
         
     except Exception as e:
 	    return(str(e))
@@ -76,8 +79,11 @@ def get_cat_by_id(id_):
 @app.route("/category/<sql_>")
 def get_cat_by_sql(sql_):
     try:
-        result = db.engine.execute(sql_)
-        return render_template('category.html',products=result)
+        if 'drop' not in sql_.lower() and 'insert' not in sql_.lower() and 'delete' not in sql_.lower() and 'create' not in sql_.lower():
+            result = db.engine.execute(sql_)
+            return render_template('category.html',products=result)
+        else:
+            return render_template('error.html')
         
     except Exception as e:
 	    return(str(e))        
