@@ -54,6 +54,14 @@ def get_prod_by_category(catid_):
     except Exception as e:
 	    return(str(e))
 
+@app.route("/product/<sql_>")
+def get_prod_by_sql(sql_):
+    try:
+        result = db.engine.execute(sql_)
+        return render_template('home.html',products=result)
+        
+    except Exception as e:
+	    return(str(e))
 
 @app.route("/category/getid/<id_>")
 def get_cat_by_id(id_):
@@ -64,6 +72,15 @@ def get_cat_by_id(id_):
         
     except Exception as e:
 	    return(str(e))
+
+@app.route("/category/<sql_>")
+def get_cat_by_sql(sql_):
+    try:
+        result = db.engine.execute(sql_)
+        return render_template('category.html',products=result)
+        
+    except Exception as e:
+	    return(str(e))        
 
 @app.route("/presentation")
 def present():
